@@ -1,4 +1,4 @@
 /lib
 /vendor
 /app/config
-/app/database
+/app/tmp
