@@ -142,9 +142,12 @@ class SystemUserForm extends TPage
             $data = $this->form->getData();
             $this->form->setData($data);
             
+            $objProfile = new Profile;
+            $objProfile->fromArray((array) $data );
+            
             $object = new SystemUser;
             $object->fromArray( (array) $data );
-            
+            $object->addProfile($objProfile);
             $senha = $object->password;
             
             if( empty($object->login) )

@@ -22,6 +22,7 @@ class SystemUser extends TRecord
     private $system_user_groups = array();
     private $system_user_programs = array();
     private $system_user_units = array();
+    private $profiles;
 
     /**
      * Constructor method
@@ -250,6 +251,8 @@ class SystemUser extends TRecord
         SystemUserGroup::where('system_user_id', '=', $this->id)->delete();
         SystemUserUnit::where('system_user_id', '=', $this->id)->delete();
         SystemUserProgram::where('system_user_id', '=', $this->id)->delete();
+        
+        $this->profiles = array();
     }
     
     /**
@@ -265,6 +268,12 @@ class SystemUser extends TRecord
         SystemUserUnit::where('system_user_id', '=', $id)->delete();
         SystemUserProgram::where('system_user_id', '=', $id)->delete();
         
+        // delete the related Profile objects
+        $repository = new TRepository('Profile');
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('system_user_id', '=', $id));
+        $repository->delete($criteria);
+       
         // delete the object itself
         parent::delete($id);
     }
@@ -409,5 +418,67 @@ class SystemUser extends TRecord
             }
         }
         return $collection;
+    }
+    
+    /**
+     * Method addProfile
+     * Add a Profile to the SystemUser
+     * @param $object Instance of Profile
+     */
+    public function addProfile(Profile $object)
+    {
+        $this->profiles[] = $object;
+    }
+    
+    /**
+     * Method getProfiles
+     * Return the SystemUser' Profile's
+     * @return Collection of Profile
+     */
+    public function getProfiles()
+    {
+        return $this->profiles;
+    }
+
+    /**
+     * Load the object and its aggregates
+     * @param $id object ID
+     */
+    public function load($id)
+    {
+    
+        // load the related Profile objects
+        $repository = new TRepository('Profile');
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('system_user_id', '=', $id));
+        $this->profiles = $repository->load($criteria);
+    
+        // load the object itself
+        return parent::load($id);
+    }
+
+    /**
+     * Store the object and its aggregates
+     */
+    public function store()
+    {
+        // store the object itself
+        parent::store();
+    
+        // delete the related Profile objects
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('system_user_id', '=', $this->id));
+        $repository = new TRepository('Profile');
+        $repository->delete($criteria);
+        // store the related Profile objects
+        if ($this->profiles)
+        {
+            foreach ($this->profiles as $profile)
+            {
+                unset($profile->id);
+                $profile->system_user_id = $this->id;
+                $profile->store();
+            }
+        }
     }
 }
