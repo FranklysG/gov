@@ -1,6 +1,6 @@
 <?php
 /**
- * ViewHeader
+ * ViewBlog
  *
  * @version    1.0
  * @package    control
@@ -9,17 +9,21 @@
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class ViewHeader extends TPage
+class ViewBlog extends TPage
 {
     public function __construct()
     {
         parent::__construct();
+       
         
-        // replace the main section variables to section header
-        $header = new THtmlRenderer('app/pages/view_header.html');
-        $header->enableSection('main', array());
-
+        // replace the main section variables to section body
+        $body = new THtmlRenderer('app/pages/blog/view_blog.html');
+        $body->enableSection('main', array());
+        
+        
         // add the template to the page
-        parent::add($header);
+        parent::add(new ViewHeader);
+        parent::add($body);
+        parent::add(new ViewFooter);
     }
 }

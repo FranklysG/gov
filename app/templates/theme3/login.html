@@ -15,38 +15,37 @@
     {LIBRARIES}
     {HEAD}
 
+    <!-- tags the framework -->
     <link href="app/lib/include/admin.min.css?appver=730" rel="stylesheet" type="text/css" media="screen">
     <link rel="stylesheet" href="app/templates/{template}/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="app/templates/{template}/css/skins/_all-skins.min.css">
 
-    <!-- tags custom -->
-    <!-- web fonts -->
+    <!-- tags custom layout -->
     <link href="//fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900&display=swap"
         rel="stylesheet">
-    <!-- Template CSS -->
     <link href="app/templates/{template}/assets/css/style-starter.css" rel="stylesheet" type="text/css" media="screen">
-    <!-- Custom Css -->
     <link href="app/templates/{template}/custom.css" rel="stylesheet" type="text/css" media="screen">
-
+    <link rel="stylesheet" href="app/templates/{template}/assets/css/style-liberty.css">
+    
     <script>
         $(function () {
             __adianti_set_language('{lang}');
-            __adianti_set_debug({ debug });
+            __adianti_set_debug({
+                debug
+            });
         });
     </script>
 </head>
 
 <body>
 
-    <!-- <div id="wrapper" style="width:90%;margin:auto;margin-top:10px"> -->
     <div id="adianti_div_content"></div>
     <div id="adianti_online_content"></div>
     <div id="adianti_online_content2"></div>
-
-    <!-- </div> -->
-
     <!-- /#wrapper -->
+
+
+    <script src="app/templates/{template}/assets/js/owl.carousel.js"></script>
 </body>
 
 </html>

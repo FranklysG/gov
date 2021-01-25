@@ -18,7 +18,12 @@ class ViewIndex extends TPage
         
         // replace the main section variables to section body
         $body = new THtmlRenderer('app/pages/view_index.html');
-        $body->enableSection('main', array());
+        $body->enableSection('main', array(
+            'view_module_slid' => new ViewModuleSlid,
+            'view_module_card' => new ViewModuleCard,
+            'view_module_new' => new ViewModuleNew,
+            'view_module_service' => new ViewModuleService
+        ));
         
         
         // add the template to the page
