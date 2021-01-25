@@ -23,21 +23,14 @@ class MenuList extends TPage
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_Menu');
         $this->form->setFormTitle('Menu');
+        $this->form->setFieldSizes('100%');
         
-
         // create the form fields
         $name = new TEntry('name');
-        $rout = new TEntry('rout');
-
 
         // add the fields
-        $this->form->addFields( [ new TLabel('Name') ], [ $name ] );
-        $this->form->addFields( [ new TLabel('Rout') ], [ $rout ] );
-
-
-        // set sizes
-        $name->setSize('100%');
-        $rout->setSize('100%');
+        $row = $this->form->addFields( [ new TLabel('Nome'), $name ]);
+        $row->layout = ['col-sm-6'];
 
         
         // keep the form filled during navigation with session data
@@ -57,7 +50,6 @@ class MenuList extends TPage
 
         // creates the datagrid columns
         $column_id = new TDataGridColumn('id', 'Id', 'right');
-        $column_profile_type_id = new TDataGridColumn('profile_type_id', 'Profile Type Id', 'right');
         $column_name = new TDataGridColumn('name', 'Name', 'left');
         $column_rout = new TDataGridColumn('rout', 'Rout', 'left');
         $column_created_at = new TDataGridColumn('created_at', 'Created At', 'left');
@@ -65,8 +57,7 @@ class MenuList extends TPage
 
 
         // add the columns to the DataGrid
-        $this->datagrid->addColumn($column_id);
-        $this->datagrid->addColumn($column_profile_type_id);
+        // $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_rout);
         $this->datagrid->addColumn($column_created_at);

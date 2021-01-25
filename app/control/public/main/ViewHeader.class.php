@@ -16,8 +16,24 @@ class ViewHeader extends TPage
         parent::__construct();
         
         // replace the main section variables to section header
+        TTransaction::open('app');
+        
         $header = new THtmlRenderer('app/pages/main/view_header.html');
-        $header->enableSection('main', array());
+        $menu = new THtmlRenderer('app/pages/module/view_module_menu.html');
+        $objects = Menu::getObjects();
+        
+        $items = [];
+        foreach($objects as $object){
+            $items['menu'][] = [
+                'rout' => $object->rout,
+                'name' => $object->name
+            ];
+        }
+       
+        
+        $menu->enableSection('main', $items);
+        $header->enableSection('main', ['view_module_menu' => $menu]);
+        TTransaction::close();
 
         // add the template to the page
         parent::add($header);

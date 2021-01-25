@@ -34,10 +34,6 @@
   <menuitem label="_t{Administration}">
     <icon>fas:home fa-fw</icon>
     <menu>
-      <menuitem label="Perfis administradores">
-        <action>ProfileList</action>
-        <icon>fas:people-carry fa-fw</icon>
-      </menuitem>
       <menuitem label="Dashboard">
         <action>SystemAdministrationDashboard</action>
         <icon>fas:tachometer-alt fa-fw</icon>

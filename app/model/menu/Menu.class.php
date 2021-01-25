@@ -10,8 +10,8 @@ class Menu extends TRecord
     const IDPOLICY =  'max'; // {max, serial}
     
     
+    private $system_user;
     private $sub_menus;
-    private $profile_type;
 
     /**
      * Constructor method
@@ -19,13 +19,40 @@ class Menu extends TRecord
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('profile_type_id');
+        parent::addAttribute('system_user_id');
         parent::addAttribute('name');
         parent::addAttribute('rout');
         parent::addAttribute('created_at');
         parent::addAttribute('updated_at');
     }
 
+    
+    /**
+     * Method set_system_user
+     * Sample of usage: $menu->system_user = $object;
+     * @param $object Instance of SystemUser
+     */
+    public function set_system_user(SystemUser $object)
+    {
+        $this->system_user = $object;
+        $this->system_user_id = $object->id;
+    }
+    
+    /**
+     * Method get_system_user
+     * Sample of usage: $menu->system_user->attribute;
+     * @returns SystemUser instance
+     */
+    public function get_system_user()
+    {
+        // loads the associated object
+        if (empty($this->system_user))
+            $this->system_user = new SystemUser($this->system_user_id);
+    
+        // returns the associated object
+        return $this->system_user;
+    }
+    
     
     /**
      * Method addSubMenu
@@ -46,33 +73,6 @@ class Menu extends TRecord
     {
         return $this->sub_menus;
     }
-    
-    /**
-     * Method set_profile_type
-     * Sample of usage: $menu->profile_type = $object;
-     * @param $object Instance of ProfileType
-     */
-    public function set_profile_type(ProfileType $object)
-    {
-        $this->profile_type = $object;
-        $this->profile_type_id = $object->id;
-    }
-    
-    /**
-     * Method get_profile_type
-     * Sample of usage: $menu->profile_type->attribute;
-     * @returns ProfileType instance
-     */
-    public function get_profile_type()
-    {
-        // loads the associated object
-        if (empty($this->profile_type))
-            $this->profile_type = new ProfileType($this->profile_type_id);
-    
-        // returns the associated object
-        return $this->profile_type;
-    }
-    
 
     /**
      * Reset aggregates

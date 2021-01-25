@@ -10,7 +10,7 @@ class Post extends TRecord
     const IDPOLICY =  'max'; // {max, serial}
     
     
-    private $profile_type;
+    private $system_user;
     private $category;
     private $comments;
 
@@ -20,7 +20,7 @@ class Post extends TRecord
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('profile_type_id');
+        parent::addAttribute('system_user_id');
         parent::addAttribute('category_id');
         parent::addAttribute('title');
         parent::addAttribute('author');
@@ -32,29 +32,29 @@ class Post extends TRecord
 
     
     /**
-     * Method set_profile_type
-     * Sample of usage: $post->profile_type = $object;
-     * @param $object Instance of ProfileType
+     * Method set_system_user
+     * Sample of usage: $post->system_user = $object;
+     * @param $object Instance of SystemUser
      */
-    public function set_profile_type(ProfileType $object)
+    public function set_system_user(SystemUser $object)
     {
-        $this->profile_type = $object;
-        $this->profile_type_id = $object->id;
+        $this->system_user = $object;
+        $this->system_user_id = $object->id;
     }
     
     /**
-     * Method get_profile_type
-     * Sample of usage: $post->profile_type->attribute;
-     * @returns ProfileType instance
+     * Method get_system_user
+     * Sample of usage: $post->system_user->attribute;
+     * @returns SystemUser instance
      */
-    public function get_profile_type()
+    public function get_system_user()
     {
         // loads the associated object
-        if (empty($this->profile_type))
-            $this->profile_type = new ProfileType($this->profile_type_id);
+        if (empty($this->system_user))
+            $this->system_user = new SystemUser($this->system_user_id);
     
         // returns the associated object
-        return $this->profile_type;
+        return $this->system_user;
     }
     
     

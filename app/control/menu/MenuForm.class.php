@@ -3,7 +3,7 @@
  * MenuForm Form
  * @author  <your name here>
  */
-class MenuForm extends TPage
+class MenuForm extends TWindow
 {
     protected $form; // form
     
@@ -14,42 +14,35 @@ class MenuForm extends TPage
     public function __construct( $param )
     {
         parent::__construct();
-        
+        parent::removePadding();
+        parent::setSize(300, null);
+        parent::setTitle('Novo menu');
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_Menu');
-        $this->form->setFormTitle('Menu');
+        $this->form->setFieldSizes('100%');
         
 
         // create the form fields
         $id = new THidden('id');
-        $profile_type_id = new THidden('profile_type_id', 'app', 'ProfileType', 'id', 'profile_id');
         $name = new TEntry('name');
-        $rout = new TEntry('rout');
+        $rout = new TCombo('rout');
+        $rout->addItems([
+            'home' => 'home',
+            'licitacao' => 'licitacao',
+            'noticias' => 'noticias',
+        ]);
         $created_at = new THidden('created_at');
         $updated_at = new THidden('updated_at');
 
 
         // add the fields
-        $this->form->addFields( [ new TLabel('Id') ], [ $id ] );
-        $this->form->addFields( [ new TLabel('Profile Type Id') ], [ $profile_type_id ] );
-        $this->form->addFields( [ new TLabel('Name') ], [ $name ] );
-        $this->form->addFields( [ new TLabel('Rout') ], [ $rout ] );
-        $this->form->addFields( [ new TLabel('Created At') ], [ $created_at ] );
-        $this->form->addFields( [ new TLabel('Updated At') ], [ $updated_at ] );
+        $this->form->addFields([ $id]);
+        $row = $this->form->addFields( [ new TLabel('Nome'), $name ],[],
+                                [ new TLabel('Routas Disponoveis'), $rout ] );
 
-
-
-        // set sizes
-        $id->setSize('100%');
-        $profile_type_id->setSize('100%');
-        $name->setSize('100%');
-        $rout->setSize('100%');
-        $created_at->setSize('100%');
-        $updated_at->setSize('100%');
-
-
-
+        $row->layout = ['col-sm-12','col-sm-12','col-sm-12'];
+        
         if (!empty($id))
         {
             $id->setEditable(FALSE);
@@ -63,15 +56,9 @@ class MenuForm extends TPage
         // create the form actions
         $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:save');
         $btn->class = 'btn btn-sm btn-primary';
-        $this->form->addActionLink(_t('New'),  new TAction([$this, 'onEdit']), 'fa:eraser red');
+        // $this->form->addActionLink(_t('New'),  new TAction([$this, 'onEdit']), 'fa:eraser red');
         
-        // vertical box container
-        $container = new TVBox;
-        $container->style = 'width: 100%';
-        // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
-        $container->add($this->form);
-        
-        parent::add($container);
+        parent::add($this->form);
     }
 
     /**
@@ -95,6 +82,7 @@ class MenuForm extends TPage
             
             $object = new Menu;  // create an empty object
             $object->fromArray( (array) $data); // load the object with data
+            $object->system_user_id = TSession::getValue('userid');
             $object->store(); // save the object
             
             // get the generated id
@@ -103,7 +91,7 @@ class MenuForm extends TPage
             $this->form->setData($data); // fill form data
             TTransaction::close(); // close the transaction
             
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
+            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuList', 'onReload']));
         }
         catch (Exception $e) // in case of exception
         {
