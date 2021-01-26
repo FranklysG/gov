@@ -1,6 +1,6 @@
 <?php
 /**
- * ViewHeader
+ * PublicView
  *
  * @version    1.0
  * @package    control
@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class ViewHeader extends TPage
+class PublicView extends TPage
 {
     public function __construct()
     {
@@ -28,10 +28,11 @@ class ViewHeader extends TPage
             ];
         }
 
+        $menu = new THtmlRenderer('./app/pages/module/view_module_menu.html');
 
-        $header = new THtmlRenderer('app/pages/main/view_header.html');
-        $header->enableSection('main', $replace);
+        $menu->enableSection('main', $replace);
+
         // add the template to the page
-        parent::add($header);
+        parent::add($menu);
     }
 }
