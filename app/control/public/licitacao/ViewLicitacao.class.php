@@ -62,8 +62,7 @@ class ViewLicitacao extends TPage
         $panel->getBody()->style = "overflow-x:auto;";
 
         // replace the main section variables to section body
-        $body = new THtmlRenderer('app/pages/licitacao/view_licitacao.html');
-        $body->enableSection('main', array(
+        $body = THtmlRenderer::create('app/pages/licitacao/view_licitacao.html', array(
             'datagrid' => $panel
         ));
         

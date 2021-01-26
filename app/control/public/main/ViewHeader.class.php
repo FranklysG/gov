@@ -17,20 +17,21 @@ class ViewHeader extends TPage
         
         // replace the main section variables to section header
         TTransaction::open('app');
+        $preference = SystemPreference::getAllPreferences();
         $objects = Menu::getObjects();
         TTransaction::close();
     
-        $replace = [];
+        $replace = array();
+        $replace['header_logo'] = ['logo' => $preference['logo']];
         foreach($objects as $object){
-            $replace['menu'][] = [
-                'name' => $object->name,
-                'rout' => $object->rout
-            ];
+            $replace['header_menu'][] = [
+                'name' => $object->name, 
+                'route' => $object->route
+            ];      
         }
 
-
-        $header = new THtmlRenderer('app/pages/main/view_header.html');
-        $header->enableSection('main', $replace);
+        $header = THtmlRenderer::create('app/pages/main/view_header.html', $replace);
+    
         // add the template to the page
         parent::add($header);
     }

@@ -18,7 +18,7 @@ class SubMenu extends TRecord
         parent::__construct($id, $callObjectLoad);
         parent::addAttribute('menu_id');
         parent::addAttribute('name');
-        parent::addAttribute('rout');
+        parent::addAttribute('route');
         parent::addAttribute('created_at');
         parent::addAttribute('updated_at');
     }

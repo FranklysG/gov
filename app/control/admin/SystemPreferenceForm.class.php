@@ -27,8 +27,10 @@ class SystemPreferenceForm extends TStandardForm
         // cria o formulário
         $this->form = new BootstrapFormBuilder('form_preferences');
         $this->form->setFormTitle(_t('Preferences'));
+        $this->form->setFieldSizes('70%');
         
         // cria os campos do formulário
+        $name_mail_domain = new TEntry('name_mail_domain');
         $mail_domain = new TEntry('mail_domain');
         $smtp_auth   = new TCombo('smtp_auth');
         $smtp_host   = new TEntry('smtp_host');
@@ -38,6 +40,14 @@ class SystemPreferenceForm extends TStandardForm
         $mail_from   = new TEntry('mail_from');
         $mail_support= new TEntry('mail_support');
         
+        $logo = new TFile('logo');
+        $logo->setCompleteAction(new TAction(array($this, 'onComplete')));
+        $logo->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
+
+        $this->frame = new TElement('div');
+        $this->frame->id = 'logo_frame';
+        $this->frame->style = 'width:200px;height:auto;;border:1px solid gray;padding:4px;';
+        
         $smtp_host->placeholder = 'ssl://smtp.gmail.com, tls://server.company.com';
         
         $yesno = array();
@@ -45,6 +55,7 @@ class SystemPreferenceForm extends TStandardForm
         $yesno['0'] = _t('No');
         $smtp_auth->addItems($yesno);
         
+        $this->form->addFields( [new TLabel('Nome E-Mail')], [$name_mail_domain] );
         $this->form->addFields( [new TLabel(_t('Mail from'))], [$mail_from] );
         $this->form->addFields( [new TLabel(_t('SMTP Auth'))], [$smtp_auth] );
         $this->form->addFields( [new TLabel(_t('SMTP Host'))], [$smtp_host] );
@@ -52,14 +63,8 @@ class SystemPreferenceForm extends TStandardForm
         $this->form->addFields( [new TLabel(_t('SMTP User'))], [$smtp_user] );
         $this->form->addFields( [new TLabel(_t('SMTP Pass'))], [$smtp_pass] );
         $this->form->addFields( [new TLabel(_t('Support mail'))], [$mail_support] );
-        
-        $mail_from->setSize('70%');
-        $smtp_auth->setSize('70%');
-        $smtp_host->setSize('70%');
-        $smtp_port->setSize('70%');
-        $smtp_user->setSize('70%');
-        $smtp_pass->setSize('70%');
-        $mail_support->setSize('70%');
+        $this->form->addFields( [new TLabel('Logo')], [$logo] );
+        $this->form->addFields( [new TLabel('')], [$this->frame] );
         
         $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
         $btn->class = 'btn btn-sm btn-primary';
@@ -84,6 +89,11 @@ class SystemPreferenceForm extends TStandardForm
             $preferences = SystemPreference::getAllPreferences();
             if ($preferences)
             {
+                if (isset($preferences['logo'])) {
+                    $image = new TImage('tmp/'.$preferences['logo']);
+                    $image->style = 'width: 100%';
+                    $this->frame->add($image);
+                }
                 $this->form->setData((object) $preferences);
             } 
             
@@ -146,5 +156,13 @@ class SystemPreferenceForm extends TStandardForm
             // undo all pending operations
             TTransaction::rollback();
         }
+    }
+
+    public static function onComplete($param)
+    {
+        // refresh photo_frame
+        $logo = PATH."/tmp/{$param['logo']}";
+        TScript::create("$('#logo_frame').html('')");
+        TScript::create("$('#logo_frame').append(\"<img style='width:100%' src='$logo'>\");");
     }
 }

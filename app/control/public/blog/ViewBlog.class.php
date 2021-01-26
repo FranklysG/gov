@@ -17,10 +17,8 @@ class ViewBlog extends TPage
        
         
         // replace the main section variables to section body
-        $body = new THtmlRenderer('app/pages/blog/view_blog.html');
-        $body->enableSection('main', array());
-        
-        
+        $body = THtmlRenderer::create('app/pages/blog/view_blog.html');
+                
         // add the template to the page
         parent::add(new ViewHeader);
         parent::add($body);

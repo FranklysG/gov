@@ -17,10 +17,8 @@ class ViewModuleCard extends TPage
        
         
         // replace the main section variables to section body
-        $body = new THtmlRenderer('app/pages/module/view_module_card.html');
-        $body->enableSection('main', array());
-        
-        
+        $body = THtmlRenderer::create('app/pages/module/view_module_card.html');
+       
         // add the template to the page
         parent::add($body);
     }

@@ -21,7 +21,7 @@ class Menu extends TRecord
         parent::__construct($id, $callObjectLoad);
         parent::addAttribute('system_user_id');
         parent::addAttribute('name');
-        parent::addAttribute('rout');
+        parent::addAttribute('route');
         parent::addAttribute('created_at');
         parent::addAttribute('updated_at');
     }
