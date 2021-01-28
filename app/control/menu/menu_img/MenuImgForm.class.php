@@ -1,9 +1,9 @@
 <?php
 /**
- * MenuForm Form
+ * MenuImgForm Form
  * @author  <your name here>
  */
-class MenuForm extends TWindow
+class MenuImgForm extends TWindow
 {
     protected $form; // form
     
@@ -15,34 +15,33 @@ class MenuForm extends TWindow
     {
         parent::__construct();
         parent::removePadding();
-        parent::setSize(300, null);
-        parent::setTitle('Novo menu');
+        parent::setSize(320, null);
+        parent::setTitle('Novo icone de menu');
+        
         
         // creates the form
-        $this->form = new BootstrapFormBuilder('form_Menu');
+        $this->form = new BootstrapFormBuilder('form_MenuImg');
         $this->form->setFieldSizes('100%');
         
 
         // create the form fields
         $id = new THidden('id');
         $name = new TEntry('name');
-        $rout = new TCombo('rout');
-        $rout->addItems([
-            'home' => 'home',
-            'licitacao' => 'licitacao',
-            'noticias' => 'noticias',
-        ]);
-        $created_at = new THidden('created_at');
-        $updated_at = new THidden('updated_at');
+        $directory = new TFile('directory');
+        $directory->setCompleteAction(new TAction(array($this, 'onComplete')));
+        $directory->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
+
+        $this->frame = new TElement('div');
+        $this->frame->id = 'directory_frame';
+        $this->frame->style = 'width:100px;height:auto;;border:1px solid gray;padding:4px;';
 
 
         // add the fields
-        $this->form->addFields([ $id]);
-        $row = $this->form->addFields( [ new TLabel('Nome'), $name ],[],
-                                [ new TLabel('Routas Disponoveis'), $rout ] );
+        $this->form->addFields([$id]);
+        $this->form->addFields( [ new TLabel('Selecione o icone (.png, .jpg, .jpeg)'), $directory ] );
+        $this->form->addFields( [ new TLabel('Nome'), $name ] );
+        $this->form->addFields( [new TLabel(''), $this->frame] );
 
-        $row->layout = ['col-sm-12','col-sm-12','col-sm-12'];
-        
         if (!empty($id))
         {
             $id->setEditable(FALSE);
@@ -56,9 +55,15 @@ class MenuForm extends TWindow
         // create the form actions
         $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:save');
         $btn->class = 'btn btn-sm btn-primary';
-        // $this->form->addActionLink(_t('New'),  new TAction([$this, 'onEdit']), 'fa:eraser red');
+        $this->form->addActionLink(_t('New'),  new TAction([$this, 'onEdit']), 'fa:eraser red');
         
-        parent::add($this->form);
+        // vertical box container
+        $container = new TVBox;
+        $container->style = 'width: 100%';
+        // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
+        $container->add($this->form);
+        
+        parent::add($container);
     }
 
     /**
@@ -79,10 +84,11 @@ class MenuForm extends TWindow
             
             $this->form->validate(); // validate form data
             $data = $this->form->getData(); // get form data as array
-            
-            $object = new Menu;  // create an empty object
+            $object = MenuImg::find($data->id);  // create an empty object
+            if(!isset($object->id))
+                $object = new MenuImg;  // create an empty object
+            $object->system_user_id = TSession::getValue('userid'); // load the object with data
             $object->fromArray( (array) $data); // load the object with data
-            $object->system_user_id = TSession::getValue('userid');
             $object->store(); // save the object
             
             // get the generated id
@@ -91,7 +97,7 @@ class MenuForm extends TWindow
             $this->form->setData($data); // fill form data
             TTransaction::close(); // close the transaction
             
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuList', 'onReload']));
+            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuImgList', 'onReload']));
         }
         catch (Exception $e) // in case of exception
         {
@@ -118,11 +124,17 @@ class MenuForm extends TWindow
     {
         try
         {
+        
             if (isset($param['key']))
             {
                 $key = $param['key'];  // get the parameter $key
                 TTransaction::open('app'); // open a transaction
-                $object = new Menu($key); // instantiates the Active Record
+                $object = new MenuImg($key); // instantiates the Active Record
+                if (isset($object->directory)) {
+                    $image = new TImage("tmp/{$object->directory}");
+                    $image->style = 'width: 100%';
+                    $this->frame->add($image);
+                }
                 $this->form->setData($object); // fill the form
                 TTransaction::close(); // close the transaction
             }
@@ -136,5 +148,13 @@ class MenuForm extends TWindow
             new TMessage('error', $e->getMessage()); // shows the exception error message
             TTransaction::rollback(); // undo all pending operations
         }
+    }
+
+    public static function onComplete($param)
+    {
+        // refresh photo_frame
+        $directory = PATH."/tmp/{$param['directory']}";
+        TScript::create("$('#directory_frame').html('')");
+        TScript::create("$('#directory_frame').append(\"<img style='width:100%' src='$directory'>\");");
     }
 }

@@ -38,6 +38,10 @@
         <action>SystemAdministrationDashboard</action>
         <icon>fas:tachometer-alt fa-fw</icon>
       </menuitem>
+      <menuitem label="Menu Imagens">
+        <action>MenuImgList</action>
+        <icon>fas:bars fa-fw</icon>
+      </menuitem>
       <menuitem label="_t{Programs}">
         <action>SystemProgramList</action>
         <icon>far:file-code fa-fw</icon>

@@ -3,65 +3,39 @@
     <div class="top-hd">
         <div class="container">
             <header class="row top-menu-top">
+                <!-- section img logo -->
                 <div class="col-md-6 accounts ">
                     <div class="col-md-6 m-4">
-                        <!-- [header_logo] -->
-                        <a class="navbar-brand" href="#index.html">
+                        <a class="navbar-brand" href="index">
                             <img class="img img-resposive img-logo"
                                 src="tmp/{$logo}"
                                 alt="Main Logo">
                         </a>
-                        <!-- [/header_logo] -->
                     </div>
                     <div class="col-md-4">
 
                     </div>
                 </div>
+                <!-- section img menu -->
                 <div class="social-top col-md-6 col-6">
-                    <!-- [header_menu_img] -->
+                    <!--[header_menu_img]-->
                     <div class="d-inline-block m-2">
                         <div id="" class="figure-top">
-                            <a target="_blank" href="https://www.balsas.ma.gov.br/transparencia/transparencia/"
+                            <a target="_blank" href="{$url}"
                                 rel="noopener"><br>
                                 <img class="img-responsive"
-                                    src="https://www.balsas.ma.gov.br/assets/img/transparenciaico.png"
+                                    src="tmp/{$icone}"
                                     alt="banner-top"><br>
                             </a>
                         </div>
                     </div>
-                    <!-- [/header_menu_img] -->
-                    <div class="d-inline-block m-2">
-                        <div id="" class="figure-top">
-                            <a target="_blank" href="https://www.balsas.ma.gov.br/transparencia/transparencia/"
-                                rel="noopener"><br>
-                                <img class="img-responsive" src="https://www.balsas.ma.gov.br/assets/img/ouvidoria.png"
-                                    alt="banner-top"><br>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="d-inline-block m-2">
-                        <div id="" class="figure-top">
-                            <a target="_blank" href="https://www.balsas.ma.gov.br/transparencia/transparencia/"
-                                rel="noopener"><br>
-                                <img class="img-responsive" src="https://www.balsas.ma.gov.br/assets/img/esic.png"
-                                    alt="banner-top"><br>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="d-inline-block m-2">
-                        <div id="" class="figure-top">
-                            <a target="_blank" href="https://www.balsas.ma.gov.br/transparencia/transparencia/"
-                                rel="noopener"><br>
-                                <img class="img-responsive" src="https://www.balsas.ma.gov.br/assets/img/licitacao.png"
-                                    alt="banner-top"><br>
-                            </a>
-                        </div>
-                    </div>
+                    <!--[/header_menu_img]-->
                 </div>
             </header>
         </div>
     </div>
 </section>
+<!-- section label menu -->
 <section class="w3l-bootstrap-header">
     <nav class="navbar navbar-expand-lg navbar-light py-lg-2 py-2">
         <div class="container">
@@ -71,11 +45,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
-                    <!-- [header_menu] -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{$route}">{$name}</a>
-                    </li>
-                    <!-- [/header_menu] -->
+                    <!--[menu]-->
+                        <li class="nav-item {$menu_on}">
+                            <a class="nav-link" {$sub_menu_on} href="{$route}">
+                            {$name} <i class="{$arrow_down_icon}"></i></a>
+                            <!--[sub_menu]-->
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{$sub_menu_route}">{$sub_menu_name}</a>
+                            </div>
+                            <!--[/sub_menu]-->
+                        </li>
+                    <!--[/menu]-->
                 </ul>
                 <a href="login" class="btn btn-secondary btn-theme4">Painel administrativo</a>
             </div>

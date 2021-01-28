@@ -17,22 +17,22 @@ class PublicView extends TPage
         
         // replace the main section variables to section header
         TTransaction::open('app');
+        $preference = SystemPreference::getAllPreferences();
         $objects = Menu::getObjects();
         TTransaction::close();
     
-        $replace = [];
+        $replace = array();
+        $replace['header_logo'][] = ['logo' => $preference['logo']];
         foreach($objects as $object){
-            $replace['menu'][] = [
-                'name' => $object->name,
-                'rout' => $object->rout
-            ];
+            $replace['header_menu'][] = [
+                'name' => $object->name, 
+                'route' => $object->route
+            ];      
         }
 
-        $menu = new THtmlRenderer('./app/pages/module/view_module_menu.html');
-
-        $menu->enableSection('main', $replace);
-
+        $header = THtmlRenderer::create('app/resources/public.html', $replace);
+        
         // add the template to the page
-        parent::add($menu);
+        parent::add($header);
     }
 }

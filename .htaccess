@@ -182,14 +182,14 @@ RewriteRule ^user-groups$ rest.php?class=SystemUserGroupRestService&method=handl
 
 
 #RESTFUL routes custom 
-RewriteRule ^index$ index.php?class=ViewIndex&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-index$ engine.php?class=ViewIndex&%{QUERY_STRING} [NC]
+RewriteRule ^home$ index.php?class=ViewIndex&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-home$ engine.php?class=ViewIndex&%{QUERY_STRING} [NC]
 
 RewriteRule ^contact$ index.php?class=ViewContact&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-contact$ engine.php?class=ViewContact&%{QUERY_STRING} [NC]
 
-RewriteRule ^noticia$ index.php?class=ViewBlog&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-noticia$ engine.php?class=ViewBlog&%{QUERY_STRING} [NC]
+RewriteRule ^noticias$ index.php?class=ViewBlog&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-noticias$ engine.php?class=ViewBlog&%{QUERY_STRING} [NC]
 
 RewriteRule ^noticia/([A-Za-z-_0-9]*)$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
 

@@ -22,7 +22,7 @@ class MenuList extends TPage
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_Menu');
-        $this->form->setFormTitle('Menu');
+        $this->form->setFormTitle('Adicone um novo item ao menu');
         $this->form->setFieldSizes('100%');
         
         // create the form fields
@@ -50,16 +50,16 @@ class MenuList extends TPage
 
         // creates the datagrid columns
         $column_id = new TDataGridColumn('id', 'Id', 'right');
-        $column_name = new TDataGridColumn('name', 'Name', 'left');
-        $column_rout = new TDataGridColumn('rout', 'Rout', 'left');
-        $column_created_at = new TDataGridColumn('created_at', 'Created At', 'left');
-        $column_updated_at = new TDataGridColumn('updated_at', 'Updated At', 'left');
+        $column_name = new TDataGridColumn('name', 'Nome', 'left');
+        $column_route = new TDataGridColumn('route', 'Pagina', 'left');
+        $column_created_at = new TDataGridColumn('created_at', 'Criado em', 'left');
+        $column_updated_at = new TDataGridColumn('updated_at', 'Atualizado em', 'left');
 
 
         // add the columns to the DataGrid
         // $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
-        $this->datagrid->addColumn($column_rout);
+        $this->datagrid->addColumn($column_route);
         $this->datagrid->addColumn($column_created_at);
         $this->datagrid->addColumn($column_updated_at);
 
@@ -130,7 +130,7 @@ class MenuList extends TPage
         
         // clear session filters
         TSession::setValue(__CLASS__.'_filter_name',   NULL);
-        TSession::setValue(__CLASS__.'_filter_rout',   NULL);
+        TSession::setValue(__CLASS__.'_filter_route',   NULL);
 
         if (isset($data->name) AND ($data->name)) {
             $filter = new TFilter('name', 'like', "%{$data->name}%"); // create the filter
@@ -138,9 +138,9 @@ class MenuList extends TPage
         }
 
 
-        if (isset($data->rout) AND ($data->rout)) {
-            $filter = new TFilter('rout', 'like', "%{$data->rout}%"); // create the filter
-            TSession::setValue(__CLASS__.'_filter_rout',   $filter); // stores the filter in the session
+        if (isset($data->route) AND ($data->route)) {
+            $filter = new TFilter('rout', 'like', "%{$data->route}%"); // create the filter
+            TSession::setValue(__CLASS__.'_filter_route',   $filter); // stores the filter in the session
         }
 
         
@@ -187,8 +187,8 @@ class MenuList extends TPage
             }
 
 
-            if (TSession::getValue(__CLASS__.'_filter_rout')) {
-                $criteria->add(TSession::getValue(__CLASS__.'_filter_rout')); // add the session filter
+            if (TSession::getValue(__CLASS__.'_filter_route')) {
+                $criteria->add(TSession::getValue(__CLASS__.'_filter_route')); // add the session filter
             }
 
             
