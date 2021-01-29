@@ -1,4 +1,6 @@
 /lib
 /vendor
 /app/config
+/app/config-l
+/app/config-s
 /app/tmp

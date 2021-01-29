@@ -20,7 +20,7 @@ class ViewHeader extends TPage
             $object_logo = SystemPreference::find('logo')->value;
             $objects_menu_img = MenuImg::getObjects();
             $objects_menu = Menu::getObjects();
-            TTransaction::close();
+            
 
             $data = [];
             $sub_menu = [];
@@ -40,7 +40,7 @@ class ViewHeader extends TPage
 
             foreach($objects_menu as $object){
                 foreach ($object->getSubMenus() as $value) {
-                    $sub_menu[] = [
+                    $sub_menu['sub_menu_items'][] = [
                         'sub_menu_name' => $value->name, 
                         'sub_menu_route' => $value->route
                     ];
@@ -54,7 +54,7 @@ class ViewHeader extends TPage
                 $data['menu'][] = [
                     'name' => $object->name, 
                     'route' => $object->route,
-                    'sub_menu' => $sub_menu,
+                    'sub_menu' => [$sub_menu],
                     'menu_on' => $menu_on,
                     'sub_menu_on' => $sub_menu_on,
                     'arrow_down_icon' => $arrow_down_icon
@@ -62,13 +62,16 @@ class ViewHeader extends TPage
 
                 $menu_on =  '';
                 $sub_menu_on =  '';  
-                $$arrow_down_icon =  '';  
+                $arrow_down_icon =  '';
+                $sub_menu = [];  
             }
 
+            
             $header = new THtmlRenderer('app/pages/main/view_header.html');
             $header->enableSection('main', $data);
             
             parent::add($header);
+            TTransaction::close();
         }catch (Exeption $e) {
                 new TMessage('erro', $e->getMessage());
             }
