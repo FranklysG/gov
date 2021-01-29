@@ -16,7 +16,7 @@ class ViewFooter extends TPage
         parent::__construct();
         
         // replace the main section variables to section footer
-        $footer = THtmlRenderer::create('app/pages/main/view_footer.html');
+        $footer = THtmlRenderer::create('app/pages/main/view_footer.html',array());
 
         // add the template to the page
         parent::add($footer);

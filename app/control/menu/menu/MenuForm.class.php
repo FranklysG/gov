@@ -262,7 +262,7 @@ class MenuForm extends TPage
             
             SubMenu::where('menu_id', '=', $master->id)->delete();
             
-            if( $param['SubMenu_list_name'] )
+            if( isset($param['SubMenu_list_name']) )
             {
                 foreach( $param['SubMenu_list_name'] as $key => $item_id )
                 {

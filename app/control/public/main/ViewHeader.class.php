@@ -20,7 +20,7 @@ class ViewHeader extends TPage
             $object_logo = SystemPreference::find('logo')->value;
             $objects_menu_img = MenuImg::getObjects();
             $objects_menu = Menu::getObjects();
-            
+            TTransaction::close();
 
             $data = [];
             $sub_menu = [];
@@ -31,39 +31,43 @@ class ViewHeader extends TPage
             
             $data['logo'] = $object_logo;
 
-            foreach ($objects_menu_img as $object) {
-                $data['header_menu_img'][] = [
-                    'url' => $object->id,
-                    'icone' => $object->directory
-                ];
+            if(isset($objects_menu_img)){
+                foreach ($objects_menu_img as $object) {
+                    $data['header_menu_img'][] = [
+                        'url' => $object->id,
+                        'icone' => $object->directory
+                    ];
+                }
             }
 
-            foreach($objects_menu as $object){
-                foreach ($object->getSubMenus() as $value) {
-                    $sub_menu['sub_menu_items'][] = [
-                        'sub_menu_name' => $value->name, 
-                        'sub_menu_route' => $value->route
-                    ];
+            if(isset($objects_menu)){
+                foreach($objects_menu as $object){
+                    foreach ($object->getSubMenus() as $value) {
+                        $sub_menu['sub_menu_items'][] = [
+                            'sub_menu_name' => $value->name, 
+                            'sub_menu_route' => $value->route
+                        ];
 
-                    $arrow_down_icon =  'fas fa-sort-down'; // icone
-                    $menu_on =  "dropdown"; // menu dropdown
-                    $sub_menu_on =  'id=navbarDropdown role=button data-toggle=dropdown
-                    aria-haspopup=true aria-expanded=false'; // atributos dos links do menu
+                        $arrow_down_icon =  'fas fa-sort-down'; // icone
+                        $menu_on =  "dropdown"; // menu dropdown
+                        $sub_menu_on =  'id=navbarDropdown role=button data-toggle=dropdown
+                        aria-haspopup=true aria-expanded=false'; // atributos dos links do menu
+                    }
+                    
+                    $data['menu'][] = [
+                        'name' => $object->name, 
+                        'route' => $object->route,
+                        'sub_menu' => [$sub_menu],
+                        'menu_on' => $menu_on,
+                        'sub_menu_on' => $sub_menu_on,
+                        'arrow_down_icon' => $arrow_down_icon
+                    ]; 
+
+                    $menu_on =  '';
+                    $sub_menu_on =  '';  
+                    $arrow_down_icon =  '';
+                    $sub_menu = [];  
                 }
-                
-                $data['menu'][] = [
-                    'name' => $object->name, 
-                    'route' => $object->route,
-                    'sub_menu' => [$sub_menu],
-                    'menu_on' => $menu_on,
-                    'sub_menu_on' => $sub_menu_on,
-                    'arrow_down_icon' => $arrow_down_icon
-                ]; 
-
-                $menu_on =  '';
-                $sub_menu_on =  '';  
-                $arrow_down_icon =  '';
-                $sub_menu = [];  
             }
 
             
@@ -71,9 +75,8 @@ class ViewHeader extends TPage
             $header->enableSection('main', $data);
             
             parent::add($header);
-            TTransaction::close();
         }catch (Exeption $e) {
-                new TMessage('erro', $e->getMessage());
-            }
+            new TMessage('erro', $e->getMessage());
         }
+    }
 }

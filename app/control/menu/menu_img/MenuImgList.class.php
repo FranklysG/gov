@@ -229,7 +229,7 @@ class MenuImgList extends TPage
                 foreach ($objects as $object)
                 {
                     if (isset($object->directory)) {
-                        $image = new TImage("tmp/{$object->directory}");
+                        $image = new TImage("tmp/menu_img/{$object->directory}");
                         $image->style = 'width: 30px';
                         $object->directory = $image;
                     }

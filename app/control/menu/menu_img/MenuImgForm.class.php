@@ -91,6 +91,9 @@ class MenuImgForm extends TWindow
             $object->fromArray( (array) $data); // load the object with data
             $object->store(); // save the object
             
+            // archive name and sub_folder
+            AppUtil::paste_another_folder($data->directory, 'menu_img');
+
             // get the generated id
             $data->id = $object->id;
             
@@ -131,7 +134,7 @@ class MenuImgForm extends TWindow
                 TTransaction::open('app'); // open a transaction
                 $object = new MenuImg($key); // instantiates the Active Record
                 if (isset($object->directory)) {
-                    $image = new TImage("tmp/{$object->directory}");
+                    $image = new TImage("tmp/menu_img/{$object->directory}");
                     $image->style = 'width: 100%';
                     $this->frame->add($image);
                 }
@@ -153,7 +156,7 @@ class MenuImgForm extends TWindow
     public static function onComplete($param)
     {
         // refresh photo_frame
-        $directory = PATH."/tmp/{$param['directory']}";
+        $directory = PATH."/tmp/menu_img/{$param['directory']}";
         TScript::create("$('#directory_frame').html('')");
         TScript::create("$('#directory_frame').append(\"<img style='width:100%' src='$directory'>\");");
     }

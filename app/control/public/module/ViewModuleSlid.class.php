@@ -14,7 +14,12 @@ class ViewModuleSlid extends TPage
     public function __construct()
     {
         parent::__construct();
-       
+        // replace the main section variables to section header
+        TTransaction::open('app');
+        $object = Slider::getObjects();
+        TTransaction::close();
+
+        $data = [];
         
         // replace the main section variables to section body
         $body = THtmlRenderer::create('app/pages/module/view_module_slid.html');
