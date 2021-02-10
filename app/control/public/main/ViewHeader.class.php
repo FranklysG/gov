@@ -35,7 +35,7 @@ class ViewHeader extends TPage
                 foreach ($objects_menu_img as $object) {
                     $data['header_menu_img'][] = [
                         'url' => $object->id,
-                        'icone' => $object->directory
+                        'icone' => 'tmp/menu_img/'.$object->directory
                     ];
                 }
             }
