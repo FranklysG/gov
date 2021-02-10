@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu>
-  <menuitem label="Menu Site">
-    <icon>fas:home fa-fw</icon>
+  <menuitem label="Slider">
+    <action>SliderList</action>
+    <icon>fas:ad fa-fw</icon>
+  </menuitem>
+  <menuitem label="Menu">
+    <icon>fas:bars fa-fw</icon>
     <menu>
-      <menuitem label="Noticias">
-        <icon>fas:thumbtack fa-fw</icon>
-        <menu>
-          <menuitem label="Nova">
-            <action>SystemAdministrationDashboard</action>
-            <icon>fas:arrow-alt-circle-right fa-fw</icon>
-          </menuitem>
-          <menuitem label="Todas">
-            <action>SystemAdministrationDashboard</action>
-            <icon>fas:arrow-alt-circle-right fa-fw</icon>
-          </menuitem>
-          <menuitem label="Categorias">
-            <action>SystemAdministrationDashboard</action>
-            <icon>fas:arrow-alt-circle-right fa-fw</icon>
-          </menuitem>
-        </menu>
+      <menuitem label="Todos">
+        <action>MenuList</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
       </menuitem>
-      <menuitem label="Menu">
-        <icon>fas:bars fa-fw</icon>
+    </menu>
+  </menuitem>
+  <menuitem label="Noticias">
+    <icon>fas:thumbtack fa-fw</icon>
+    <menu>
+      <menuitem label="Nova">
+        <action>PostForm</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+      <menuitem label="Todas">
+        <action>PostList</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+      <menuitem label="Categorias">
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
         <menu>
-          <menuitem label="Todos">
-            <action>MenuList</action>
+          <menuitem label="Todas">
+            <action>CategoryList</action>
+            <icon>fas:arrow-alt-circle-right fa-fw</icon>
+          </menuitem>
+          <menuitem label="Nova">
+            <action>CategoryForm</action>
             <icon>fas:arrow-alt-circle-right fa-fw</icon>
           </menuitem>
         </menu>
@@ -38,9 +46,9 @@
         <action>SystemAdministrationDashboard</action>
         <icon>fas:tachometer-alt fa-fw</icon>
       </menuitem>
-      <menuitem label="Menu Imagens">
+      <menuitem label="Cabeçalho Imagens">
         <action>MenuImgList</action>
-        <icon>fas:bars fa-fw</icon>
+        <icon>fas:chalkboard-teacher fa-fw</icon>
       </menuitem>
       <menuitem label="_t{Programs}">
         <action>SystemProgramList</action>

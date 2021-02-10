@@ -1,33 +1,11 @@
 <!-- [main] -->
-<style type="text/css">
-    .banner-view {
-        background: url('app/templates/theme3/assets/images/covid.png') no-repeat !important;
-        min-height: 475px !important;
-    }
-
-    .banner-top1 {
-        background: url('app/templates/theme3/assets/images/esic.jpeg') no-repeat !important;
-        min-height: 475px !important;
-    }
-
-    .banner-top2 {
-        background: url('app/templates/theme3/assets/images/auxilio.png') no-repeat !important;
-        min-height: 475px !important;
-    }
-
-    .banner-top3 {
-        background: url('app/templates/theme3/assets/images/transparencia.png') no-repeat !important;
-        min-height: 475px !important;
-    }
-</style>
 <section class="w3l-main-slider" id="home">
-    <!-- main-slider -->
     <div class="companies20-content">
-
         <div class="owl-one owl-carousel owl-theme">
+            <!--[carousel]-->
             <div class="item">
                 <li>
-                    <div class="slider-info banner-view bg bg2" data-selector=".bg.bg2">
+                    <div class="slider-info banner-view bg bg2" data-selector=".bg.bg2" style="background: url('tmp/slider/{$banner}') no-repeat !important; min-height: 475px !important;">
                         <div class="banner-info">
                             <div class="container">
                                 <div class="banner-info-bg mx-auto text-center">
@@ -41,55 +19,10 @@
                     </div>
                 </li>
             </div>
-            <div class="item">
-                <li>
-                    <div class="slider-info  banner-view banner-top1 bg bg2" data-selector=".bg.bg2">
-                        <div class="banner-info">
-                            <div class="container">
-                                <div class="banner-info-bg mx-auto text-center">
-                                    <!-- <h5>Explore The World Of Our Graduates</h5>
-                                    <a class="btn btn-secondary btn-theme2 mt-md-5 mt-4" href="services.html">Read
-                                        More</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </div>
-            <div class="item">
-                <li>
-                    <div class="slider-info banner-view banner-top2 bg bg2" data-selector=".bg.bg2">
-                        <div class="banner-info">
-                            <div class="container">
-                                <div class="banner-info-bg mx-auto text-center">
-                                    <!-- <h5>Exceptional People, Exceptional Care</h5>
-                                    <a class="btn btn-secondary btn-theme2 mt-md-5 mt-4" href="services.html">Read
-                                        More</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </div>
-            <div class="item">
-                <li>
-                    <div class="slider-info banner-view banner-top3 bg bg2" data-selector=".bg.bg2">
-                        <div class="banner-info">
-                            <div class="container">
-                                <div class="banner-info-bg mx-auto text-center">
-                                    <!-- <h5>Explore The World Of Our Graduates</h5>
-                                    <a class="btn btn-secondary btn-theme2 mt-md-5 mt-4" href="services.html">Leia
-                                        mais</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </div>
+            <!--[/carousel]-->
         </div>
     </div>
 
-    <!-- script for -->
     <script>
         $(document).ready(function () {
             $('.owl-one').owlCarousel({
@@ -122,7 +55,5 @@
             })
         })
     </script>
-    <!-- //script -->
-    <!-- /main-slider -->
 </section>
 <!-- [/main] -->

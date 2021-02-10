@@ -1,9 +1,9 @@
 <?php
 /**
- * MenuImgForm Form
+ * SliderForm Form
  * @author  <your name here>
  */
-class MenuImgForm extends TWindow
+class SliderForm extends TWindow
 {
     protected $form; // form
     
@@ -15,33 +15,45 @@ class MenuImgForm extends TWindow
     {
         parent::__construct();
         parent::removePadding();
-        parent::setSize(320, null);
-        parent::setTitle('Novo icone de menu');
+        parent::setSize(400, null);
+        parent::setTitle('Novo banner');
         
         
         // creates the form
-        $this->form = new BootstrapFormBuilder('form_MenuImg');
+        $this->form = new BootstrapFormBuilder('form_Slider');
         $this->form->setFieldSizes('100%');
         
 
         // create the form fields
         $id = new THidden('id');
+        $system_user_id = new THidden('system_user_id', 'app', 'SystemUser', 'id', 'frontpage_id');
         $name = new TEntry('name');
+        $active = new TCombo('active');
+        $active->addItems([
+            true => 'ativado',
+            false => 'desativado'
+        ]);
+        $created_at = new TDate('created_at');
+        $updated_at = new TDate('updated_at');
+
         $directory = new TFile('directory');
         $directory->setCompleteAction(new TAction(array($this, 'onComplete')));
         $directory->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
 
         $this->frame = new TElement('div');
         $this->frame->id = 'directory_frame';
-        $this->frame->style = 'width:100px;height:auto;;border:1px solid gray;padding:4px;';
+        $this->frame->style = 'width:100%;height:auto;;border:1px solid gray;padding:4px;';
 
 
         // add the fields
-        $this->form->addFields([$id]);
-        $this->form->addFields( [ new TLabel('Selecione o icone (.png, .jpg, .jpeg)'), $directory ] );
-        $this->form->addFields( [ new TLabel('Nome'), $name ] );
-        $this->form->addFields( [new TLabel(''), $this->frame] );
+        $row = $this->form->addFields( [ $id]);
+        $row = $this->form->addFields( [ new TLabel('Nome'), $name ],
+                                        [ new TLabel('Mostar'), $active ],
+                                        [ new TLabel('<br>Selecione a imagem <i style="font-size:10px;"> (2048x478)</i>'), $directory ],
+                                        [ new TLabel(''), $this->frame ],
+                                     );
 
+        $row->layout = ['col-sm-8','col-sm-4','col-sm-12','col-sm-12'];
         if (!empty($id))
         {
             $id->setEditable(FALSE);
@@ -84,24 +96,24 @@ class MenuImgForm extends TWindow
             
             $this->form->validate(); // validate form data
             $data = $this->form->getData(); // get form data as array
-                       
-            $object = MenuImg::find($data->id);  // create an empty object
+      
+            $object = Slider::find($data->id);  // create an empty object
             if(!isset($object->id))
-                $object = new MenuImg;  // create an empty object
-            $object->system_user_id = TSession::getValue('userid'); // load the object with data
+                $object = new Slider; // create an empty object
             $object->fromArray( (array) $data); // load the object with data
+            $object->system_user_id = TSession::getValue('userid'); // load the object with data
             $object->store(); // save the object
             
-            // archive name and sub_folder
-            AppUtil::paste_another_folder($data->directory, 'menu_img');
-
+            // paste archive name and sub_folder
+            AppUtil::paste_another_folder($data->directory, 'slider');
+            
             // get the generated id
             $data->id = $object->id;
             
             $this->form->setData($data); // fill form data
             TTransaction::close(); // close the transaction
             
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuImgList', 'onReload']));
+            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['SliderList', 'onReload']));
         }
         catch (Exception $e) // in case of exception
         {
@@ -128,14 +140,13 @@ class MenuImgForm extends TWindow
     {
         try
         {
-        
             if (isset($param['key']))
             {
                 $key = $param['key'];  // get the parameter $key
                 TTransaction::open('app'); // open a transaction
-                $object = new MenuImg($key); // instantiates the Active Record
+                $object = new Slider($key); // instantiates the Active Record
                 if (isset($object->directory)) {
-                    $image = new TImage("tmp/menu_img/{$object->directory}");
+                    $image = new TImage("tmp/slider/{$object->directory}");
                     $image->style = 'width: 100%';
                     $this->frame->add($image);
                 }
@@ -157,7 +168,7 @@ class MenuImgForm extends TWindow
     public static function onComplete($param)
     {
         // refresh photo_frame
-        $directory = PATH."/tmp/menu_img/{$param['directory']}";
+        $directory = PATH."/tmp/slider/{$param['directory']}";
         TScript::create("$('#directory_frame').html('')");
         TScript::create("$('#directory_frame').append(\"<img style='width:100%' src='$directory'>\");");
     }

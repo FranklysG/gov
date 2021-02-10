@@ -19,6 +19,7 @@ class Category extends TRecord
     {
         parent::__construct($id, $callObjectLoad);
         parent::addAttribute('name');
+        parent::addAttribute('slug');
         parent::addAttribute('created_at');
         parent::addAttribute('updated_at');
     }

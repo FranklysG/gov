@@ -1,9 +1,9 @@
 <?php
 /**
- * MenuImgForm Form
+ * PostForm Form
  * @author  <your name here>
  */
-class MenuImgForm extends TWindow
+class PostForm extends TPage
 {
     protected $form; // form
     
@@ -14,33 +14,49 @@ class MenuImgForm extends TWindow
     public function __construct( $param )
     {
         parent::__construct();
-        parent::removePadding();
-        parent::setSize(320, null);
-        parent::setTitle('Novo icone de menu');
         
         
         // creates the form
-        $this->form = new BootstrapFormBuilder('form_MenuImg');
+        $this->form = new BootstrapFormBuilder('form_Post');
+        $this->form->setFormTitle('Novo post');
         $this->form->setFieldSizes('100%');
-        
 
         // create the form fields
         $id = new THidden('id');
-        $name = new TEntry('name');
-        $directory = new TFile('directory');
-        $directory->setCompleteAction(new TAction(array($this, 'onComplete')));
-        $directory->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
+        $system_user_id = new TDBUniqueSearch('system_user_id', 'app', 'SystemUser', 'id', 'frontpage_id');
+        $system_user_id->setMinLength(1);
+        $category_id = new TDBUniqueSearch('category_id', 'app', 'Category', 'id', 'name');
+        $category_id->setMinLength(1);
+        $title = new TEntry('title');
+        $content = new THtmlEditor('content');
+        $content->setSize('100%', 200);
+        $date = new TEntry('date');
+        $created_at = new TEntry('created_at');
+        $updated_at = new TEntry('updated_at');
+
+        $thumbnail = new TFile('thumbnail');
+        $thumbnail->setCompleteAction(new TAction(array($this, 'onComplete')));
+        $thumbnail->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
 
         $this->frame = new TElement('div');
-        $this->frame->id = 'directory_frame';
-        $this->frame->style = 'width:100px;height:auto;;border:1px solid gray;padding:4px;';
+        $this->frame->id = 'thumbnail_frame';
+        $this->frame->style = 'width:250px;height:auto;;border:1px solid gray;padding:4px;';
 
 
         // add the fields
-        $this->form->addFields([$id]);
-        $this->form->addFields( [ new TLabel('Selecione o icone (.png, .jpg, .jpeg)'), $directory ] );
-        $this->form->addFields( [ new TLabel('Nome'), $name ] );
-        $this->form->addFields( [new TLabel(''), $this->frame] );
+        $this->form->addFields( [ $id ] );
+        $row = $this->form->addFields( 
+                                [ new TLabel('Thumbnail'), $thumbnail ] ,
+                                [],
+                                [ new TLabel(''), $this->frame ],
+                                [],
+                                [ new TLabel('Titulo da post'), $title ] ,
+                                [ new TLabel('Categoria'), $category_id ] ,
+                                [ new TLabel(''), $content ]                                 
+                            );
+
+        $row->layout = ['col-sm-3','col-sm-9','col-sm-3','col-sm-12','col-sm-6','col-sm-6','col-sm-12'];
+
 
         if (!empty($id))
         {
@@ -83,25 +99,25 @@ class MenuImgForm extends TWindow
             **/
             
             $this->form->validate(); // validate form data
-            $data = $this->form->getData(); // get form data as array
-                       
-            $object = MenuImg::find($data->id);  // create an empty object
+            $data = $this->form->getData(); // get form data as array 
+            
+            $object = Post::find($data->id);  // create an empty object
             if(!isset($object->id))
-                $object = new MenuImg;  // create an empty object
+                $object = new Post; // create an empty object
             $object->system_user_id = TSession::getValue('userid'); // load the object with data
             $object->fromArray( (array) $data); // load the object with data
+            var_dump($data->thumbnail);
             $object->store(); // save the object
             
-            // archive name and sub_folder
-            AppUtil::paste_another_folder($data->directory, 'menu_img');
-
+            // paste archive name and sub_folder after folder tmp/
+            AppUtil::paste_another_folder($data->thumbnail, 'post/thumbnail');
             // get the generated id
             $data->id = $object->id;
             
             $this->form->setData($data); // fill form data
             TTransaction::close(); // close the transaction
             
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuImgList', 'onReload']));
+            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
         }
         catch (Exception $e) // in case of exception
         {
@@ -128,14 +144,13 @@ class MenuImgForm extends TWindow
     {
         try
         {
-        
             if (isset($param['key']))
             {
                 $key = $param['key'];  // get the parameter $key
                 TTransaction::open('app'); // open a transaction
-                $object = new MenuImg($key); // instantiates the Active Record
-                if (isset($object->directory)) {
-                    $image = new TImage("tmp/menu_img/{$object->directory}");
+                $object = new Post($key); // instantiates the Active Record
+                if (isset($object->thumbnail)) {
+                    $image = new TImage("tmp/post/thumbnail/{$object->thumbnail}");
                     $image->style = 'width: 100%';
                     $this->frame->add($image);
                 }
@@ -157,8 +172,8 @@ class MenuImgForm extends TWindow
     public static function onComplete($param)
     {
         // refresh photo_frame
-        $directory = PATH."/tmp/menu_img/{$param['directory']}";
-        TScript::create("$('#directory_frame').html('')");
-        TScript::create("$('#directory_frame').append(\"<img style='width:100%' src='$directory'>\");");
+        $thumbnail = PATH."/tmp/post/thumbnail/{$param['thumbnail']}";
+        TScript::create("$('#thumbnail_frame').html('')");
+        TScript::create("$('#thumbnail_frame').append(\"<img style='width:100%' src='$thumbnail'>\");");
     }
 }

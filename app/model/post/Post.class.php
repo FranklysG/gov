@@ -23,7 +23,7 @@ class Post extends TRecord
         parent::addAttribute('system_user_id');
         parent::addAttribute('category_id');
         parent::addAttribute('title');
-        parent::addAttribute('author');
+        parent::addAttribute('thumbnail');
         parent::addAttribute('content');
         parent::addAttribute('date');
         parent::addAttribute('created_at');

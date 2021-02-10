@@ -122,6 +122,7 @@ class SystemPreferenceForm extends TStandardForm
             
             // get the form data
             $data = $this->form->getData();
+            $data->logo = date('Y-m-d-h-i-s').'_'.$data->logo;
             $data_array = (array) $data;
             
             foreach ($data_array as $property => $value)

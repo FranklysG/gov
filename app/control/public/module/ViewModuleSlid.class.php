@@ -16,14 +16,21 @@ class ViewModuleSlid extends TPage
         parent::__construct();
         // replace the main section variables to section header
         TTransaction::open('app');
-        $object = Slider::getObjects();
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('active', '=', 1));
+        $objects = Slider::getObjects($criteria);
         TTransaction::close();
 
         $data = [];
-        
+        foreach ($objects as $object) {
+            $data['carousel'][] = [
+                'banner' => $object->directory
+            ];
+        }
+
         // replace the main section variables to section body
-        $body = THtmlRenderer::create('app/pages/module/view_module_slid.html');
-        
+        $body = new THtmlRenderer('app/pages/module/view_module_slid.html');
+        $body->enableSection('main', $data);
         // add the template to the page
         parent::add($body);
     }

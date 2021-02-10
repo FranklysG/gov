@@ -370,6 +370,8 @@ class AppUtil
      }
 
      public static function paste_another_folder($img_name, $sub_folder){
+        // $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+        // $img_name = rename($img_name, 'tmp/'.date('Y-m-d-H-i-s').'.'.$ext);
         $source_file   = 'tmp/'.$img_name;
         $target_path   = 'tmp/'.$sub_folder;
         $target_file   =  $target_path . '/'.$img_name;
@@ -381,13 +383,6 @@ class AppUtil
                 if (!@mkdir($target_path, 0777, true))
                 {
                     throw new Exception(_t('Permission denied'). ': '. $target_path);
-                }
-            }
-            else
-            {
-                foreach (glob("$target_path/*") as $file)
-                {
-                    unlink($file);
                 }
             }
             
