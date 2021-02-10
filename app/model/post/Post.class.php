@@ -24,6 +24,7 @@ class Post extends TRecord
         parent::addAttribute('category_id');
         parent::addAttribute('title');
         parent::addAttribute('thumbnail');
+        parent::addAttribute('resume');
         parent::addAttribute('content');
         parent::addAttribute('date');
         parent::addAttribute('created_at');

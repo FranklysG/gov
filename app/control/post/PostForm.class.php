@@ -27,14 +27,20 @@ class PostForm extends TPage
         $system_user_id->setMinLength(1);
         $category_id = new TDBUniqueSearch('category_id', 'app', 'Category', 'id', 'name');
         $category_id->setMinLength(1);
+        $category_id->addValidation('Categoria', new TRequiredValidator);
         $title = new TEntry('title');
+        $title->addValidation('Titulo', new TRequiredValidator);
+        $resume = new TText('resume');
+        $resume->setSize('100%', 100);
+        $resume->addValidation('Resumo', new TRequiredValidator);
         $content = new THtmlEditor('content');
-        $content->setSize('100%', 200);
+        $content->setSize('100%', 500);
         $date = new TEntry('date');
         $created_at = new TEntry('created_at');
         $updated_at = new TEntry('updated_at');
 
         $thumbnail = new TFile('thumbnail');
+        $thumbnail->addValidation('Thumbnail', new TRequiredValidator);
         $thumbnail->setCompleteAction(new TAction(array($this, 'onComplete')));
         $thumbnail->setAllowedExtensions( ['png', 'jpg', 'jpeg'] );
 
@@ -52,10 +58,11 @@ class PostForm extends TPage
                                 [],
                                 [ new TLabel('Titulo da post'), $title ] ,
                                 [ new TLabel('Categoria'), $category_id ] ,
+                                [ new TLabel('<br>Resumo do post'), $resume ],                                
                                 [ new TLabel(''), $content ]                                 
                             );
 
-        $row->layout = ['col-sm-3','col-sm-9','col-sm-3','col-sm-12','col-sm-6','col-sm-6','col-sm-12'];
+        $row->layout = ['col-sm-3','col-sm-9','col-sm-3','col-sm-12','col-sm-6','col-sm-6','col-sm-12','col-sm-12'];
 
 
         if (!empty($id))
@@ -106,7 +113,7 @@ class PostForm extends TPage
                 $object = new Post; // create an empty object
             $object->system_user_id = TSession::getValue('userid'); // load the object with data
             $object->fromArray( (array) $data); // load the object with data
-            var_dump($data->thumbnail);
+            
             $object->store(); // save the object
             
             // paste archive name and sub_folder after folder tmp/

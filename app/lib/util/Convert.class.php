@@ -137,6 +137,18 @@ class Convert
         $date = new DateTime($value);
         return $date->format('d/m/Y H:i:s');
     }
+    
+    public static function toDayMonthString($value)
+    {
+        $date = new DateTime($value);
+        return $date->format('d M');
+    }
+    
+    public static function toYear($value)
+    {
+        $date = new DateTime($value);
+        return $date->format('Y');
+    }
 
     // pegar o mes o dia ou ano da data us
     public static function toSeparatorDateUS($value){

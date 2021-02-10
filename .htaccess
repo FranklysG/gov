@@ -191,7 +191,8 @@ RewriteRule ^xhr-contact$ engine.php?class=ViewContact&%{QUERY_STRING} [NC]
 RewriteRule ^noticias$ index.php?class=ViewBlog&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-noticias$ engine.php?class=ViewBlog&%{QUERY_STRING} [NC]
 
-RewriteRule ^noticia/([A-Za-z-_0-9]*)$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
+RewriteRule ^single$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
+RewriteRule ^xhr-single$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
 
 RewriteRule ^licitacao$ index.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-licitacao$ engine.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
