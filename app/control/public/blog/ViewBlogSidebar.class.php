@@ -15,34 +15,39 @@ class ViewBlogSidebar extends TPage
     {
         parent::__construct();
         TTransaction::open('app');
-        $posts = Post::getObjects();
+        $criteria = new TCriteria;
+        $criteria->setProperty('limit' , 3);
+        $posts = Post::getObjects($criteria);
         $categorys = Category::getObjects();
         $data = [];
         $sub_category = [];
+        $class = 'd-none'; // determina se a subcategoria aparece ou não
         foreach($categorys as $object){
             foreach ($object->getSubCategorys() as $sub) {
-               $sub_category['sub_category'][] = [
+                $class = 'd-block';
+                $sub_category['sub_category_items'][] = [
                     'sub_name' => $sub->name,
                     'sub_slug' => $sub->slug,
+                    
                ];
             }
             
             $data['category'][] = [
                 'name' => $object->name,
                 'slug' => $object->slug,
-                'sub_category' => [$sub_category]
+                'sub_category' => [$sub_category],
+                'class' => $class
             ];
 
             $sub_category = [];
+            $class = 'd-none';
         }
 
         foreach ($posts as $object) {
             $data['lasted_post'][] = [
                 'post_id' => $object->id,
                 'thumbnail' => $object->thumbnail,
-                'author' => $object->system_user->name,
                 'title' => $object->title,
-                'resume' => mb_strimwidth($object->resume,0 ,180),
                 'date' => Convert::toDayMonthString($object->created_at),
                 'year' => Convert::toYear($object->created_at)
             ];

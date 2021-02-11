@@ -12,12 +12,14 @@
         <ul class="category">
             <!--[category]-->
             <li><a href="{$slug}"><span class="fa fa-angle-right"></span>{$name}<label></label></a></li>
-            <li>
+            <li class="{$class}">
+                <!--[sub_category]-->
                 <ul class="category" style="padding-left: 20px;">
-                    <!--[sub_category]-->
+                    <!--[sub_category_items]-->
                     <li><a href="{$sub_slug}"><span class="fa fa-angle-right"></span>{$sub_name}<label></label></a></li>
-                    <!--[/sub_category]--> 
+                    <!--[/sub_category_items]-->
                 </ul>
+                <!--[/sub_category]--> 
             </li>
             <!--[/category]-->
         </ul>

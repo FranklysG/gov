@@ -23,6 +23,7 @@ class SliderList extends TPage
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_Slider');
         $this->form->setFormTitle('Banner Slider');
+        $this->form->setFieldSizes('100%');
         
 
         // create the form fields
@@ -44,13 +45,6 @@ class SliderList extends TPage
                                     );
 
        $row->layout = ['col-sm-3','col-sm-3','col-sm-3','col-sm-3'];
-
-
-        // set sizes
-        $system_user_id->setSize('100%');
-        $active->setSize('100%');
-        $created_at->setSize('100%');
-        $updated_at->setSize('100%');
 
         
         // keep the form filled during navigation with session data

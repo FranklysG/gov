@@ -11,12 +11,17 @@
  */
 class ViewBlogSingle extends TPage
 {
-    public function __construct()
+    public function __construct($param = null)
     {
         parent::__construct();
         TTransaction::open('app');
-        $objects = Post::getObjects();
-        
+        $criteria = new TCriteria;
+        if(isset($param['id'])){
+            $key = $param['id'];
+            $criteria->add(new TFilter('id','=',$key));
+        }
+        $objects = Post::getObjects($criteria);
+
         $data = [];
         foreach($objects as $object){
             $data['post'][] = [

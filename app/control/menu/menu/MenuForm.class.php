@@ -30,6 +30,7 @@ class MenuForm extends TPage
             'home' => 'home',
             'licitacao' => 'licitacao',
             'noticias' => 'noticias',
+            'contato' => 'contato'
         ]);
         $created_at = new THidden('created_at');
         $updated_at = new THidden('updated_at');
@@ -43,6 +44,7 @@ class MenuForm extends TPage
             'home' => 'home',
             'licitacao' => 'licitacao',
             'noticias' => 'noticias',
+            'contato' => 'contato'
         ]);
 
         if (!empty($id))
@@ -257,6 +259,7 @@ class MenuForm extends TPage
             $this->form->validate();
             
             $master = new Menu;
+            $master->system_user_id = TSession::getValue('userid');
             $master->fromArray( (array) $data);
             $master->store();
             
@@ -277,7 +280,7 @@ class MenuForm extends TPage
             
             TForm::sendData('form_Menu', (object) ['id' => $master->id]);
             
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'));
+            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), new TAction(['MenuList', 'onReload']));
         }
         catch (Exception $e) // in case of exception
         {

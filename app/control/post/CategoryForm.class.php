@@ -14,61 +14,51 @@ class CategoryForm extends TPage
     public function __construct()
     {
         parent::__construct();
+
+        parent::setTargetContainer('adianti_right_panel');
         
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_Category');
-        $this->form->setFormTitle('Category');
+        $this->form->setFormTitle('Nova Categoria ou Sub Categoria');
+        $this->form->setFieldSizes('100%');
         
         // master fields
-        $id = new TEntry('id');
+        $id = new THidden('id');
         $name = new TEntry('name');
-        $created_at = new TEntry('created_at');
-        $updated_at = new TEntry('updated_at');
 
         // detail fields
         $detail_uniqid = new THidden('detail_uniqid');
         $detail_id = new THidden('detail_id');
         $detail_name = new TEntry('detail_name');
-        $detail_created_at = new TEntry('detail_created_at');
-        $detail_updated_at = new TEntry('detail_updated_at');
 
         if (!empty($id))
         {
             $id->setEditable(FALSE);
         }
         
-        // master fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel('Name')], [$name] );
-        $this->form->addFields( [new TLabel('Created At')], [$created_at] );
-        $this->form->addFields( [new TLabel('Updated At')], [$updated_at] );
-        
-        // detail fields
-        $this->form->addContent( ['<h4>Details</h4><hr>'] );
-        $this->form->addFields( [$detail_uniqid] );
-        $this->form->addFields( [$detail_id] );
-        
-        $this->form->addFields( [new TLabel('Name')], [$detail_name] );
-        $this->form->addFields( [new TLabel('Created At')], [$detail_created_at] );
-        $this->form->addFields( [new TLabel('Updated At')], [$detail_updated_at] );
-
         $add = TButton::create('add', [$this, 'onDetailAdd'], 'Register', 'fa:plus-circle green');
         $add->getAction()->setParameter('static','1');
-        $this->form->addFields( [], [$add] );
-        
+        $this->form->addFields( [],  );
+        // master fields
+        $this->form->addFields( [$id], [$detail_uniqid], [$detail_id]);
+        $row = $this->form->addFields( [new TLabel('Nome da categoria'), $name],[],
+                                        [new TLabel('Sub categoria'), $detail_name],
+                                        [new TLabel(''), $add],
+                                        []
+                                     );
+        $row->layout = ['col-sm-12','col-sm-12','col-sm-9','col-sm-3','col-sm-12'];
+      
         $this->detail_list = new BootstrapDatagridWrapper(new TDataGrid);
         $this->detail_list->setId('SubCategory_list');
         $this->detail_list->generateHiddenFields();
-        $this->detail_list->style = "min-width: 700px; width:100%;margin-bottom: 10px";
+        $this->detail_list->style = " width:100%;margin-bottom: 10px";
         
         // items
         $this->detail_list->addColumn( new TDataGridColumn('uniqid', 'Uniqid', 'center') )->setVisibility(false);
         $this->detail_list->addColumn( new TDataGridColumn('id', 'Id', 'center') )->setVisibility(false);
-        $this->detail_list->addColumn( new TDataGridColumn('name', 'Name', 'left', 100) );
-        $this->detail_list->addColumn( new TDataGridColumn('created_at', 'Created At', 'left', 100) );
-        $this->detail_list->addColumn( new TDataGridColumn('updated_at', 'Updated At', 'left', 100) );
-
+        $this->detail_list->addColumn( new TDataGridColumn('name', 'Subcategoria', 'left', 100) );
+        
         // detail actions
         $action1 = new TDataGridAction([$this, 'onDetailEdit'] );
         $action1->setFields( ['uniqid', '*'] );
@@ -82,13 +72,13 @@ class CategoryForm extends TPage
         
         $this->detail_list->createModel();
         
-        $panel = new TPanelGroup;
+        $panel = new TPanelGroup('Subcategorias');
         $panel->add($this->detail_list);
         $panel->getBody()->style = 'overflow-x:auto';
         $this->form->addContent( [$panel] );
         
-        $this->form->addAction( 'Save',  new TAction([$this, 'onSave'], ['static'=>'1']), 'fa:save green');
-        $this->form->addAction( 'Clear', new TAction([$this, 'onClear']), 'fa:eraser red');
+        $this->form->addAction( 'Salvar',  new TAction([$this, 'onSave'], ['static'=>'1']), 'fa:save green');
+        $this->form->addHeaderActionLink( _t('Close'), new TAction(array($this, 'onClose')), 'fa:times red');
         
         // create the page container
         $container = new TVBox;
@@ -132,8 +122,6 @@ class CategoryForm extends TPage
             $grid_data['uniqid'] = $uniqid;
             $grid_data['id'] = $data->detail_id;
             $grid_data['name'] = $data->detail_name;
-            $grid_data['created_at'] = $data->detail_created_at;
-            $grid_data['updated_at'] = $data->detail_updated_at;
             
             // insert row dynamically
             $row = $this->detail_list->addItem( (object) $grid_data );
@@ -145,8 +133,6 @@ class CategoryForm extends TPage
             $data->detail_uniqid = '';
             $data->detail_id = '';
             $data->detail_name = '';
-            $data->detail_created_at = '';
-            $data->detail_updated_at = '';
             
             // send data, do not fire change/exit events
             TForm::sendData( 'form_Category', $data, false, false );
@@ -168,8 +154,6 @@ class CategoryForm extends TPage
         $data->detail_uniqid = $param['uniqid'];
         $data->detail_id = $param['id'];
         $data->detail_name = $param['name'];
-        $data->detail_created_at = $param['created_at'];
-        $data->detail_updated_at = $param['updated_at'];
         
         // send data, do not fire change/exit events
         TForm::sendData( 'form_Category', $data, false, false );
@@ -186,8 +170,6 @@ class CategoryForm extends TPage
         $data->detail_uniqid = '';
         $data->detail_id = '';
         $data->detail_name = '';
-        $data->detail_created_at = '';
-        $data->detail_updated_at = '';
         
         // send data, do not fire change/exit events
         TForm::sendData( 'form_Category', $data, false, false );
@@ -252,14 +234,12 @@ class CategoryForm extends TPage
             
             SubCategory::where('category_id', '=', $master->id)->delete();
             
-            if( $param['SubCategory_list_name'] )
+            if(isset($param['SubCategory_list_name']))
             {
                 foreach( $param['SubCategory_list_name'] as $key => $item_id )
                 {
                     $detail = new SubCategory;
                     $detail->name  = $param['SubCategory_list_name'][$key];
-                    $detail->created_at  = $param['SubCategory_list_created_at'][$key];
-                    $detail->updated_at  = $param['SubCategory_list_updated_at'][$key];
                     $detail->category_id = $master->id;
                     $detail->store();
                 }
@@ -276,5 +256,10 @@ class CategoryForm extends TPage
             $this->form->setData( $this->form->getData() ); // keep form data
             TTransaction::rollback();
         }
+    }
+
+    public static function onClose($param)
+    {
+        TScript::create("Template.closeRightPanel()");
     }
 }

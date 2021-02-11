@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu>
-  <menuitem label="Slider">
-    <action>SliderList</action>
-    <icon>fas:ad fa-fw</icon>
-  </menuitem>
-  <menuitem label="Menu">
-    <icon>fas:bars fa-fw</icon>
-    <menu>
-      <menuitem label="Todos">
-        <action>MenuList</action>
-        <icon>fas:arrow-alt-circle-right fa-fw</icon>
-      </menuitem>
-    </menu>
-  </menuitem>
   <menuitem label="Noticias">
     <icon>fas:thumbtack fa-fw</icon>
     <menu>
-      <menuitem label="Nova">
-        <action>PostForm</action>
-        <icon>fas:arrow-alt-circle-right fa-fw</icon>
-      </menuitem>
       <menuitem label="Todas">
         <action>PostList</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+      <menuitem label="Nova">
+        <action>PostForm</action>
         <icon>fas:arrow-alt-circle-right fa-fw</icon>
       </menuitem>
       <menuitem label="Categorias">
@@ -36,6 +23,32 @@
             <icon>fas:arrow-alt-circle-right fa-fw</icon>
           </menuitem>
         </menu>
+      </menuitem>
+    </menu>
+  </menuitem>
+  <menuitem label="Slider">
+    <icon>fas:ad fa-fw</icon>
+    <menu>
+      <menuitem label="Todos">
+        <action>SliderList</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+      <menuitem label="Novo">
+        <action>SliderForm</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+    </menu>
+  </menuitem>
+  <menuitem label="Menu">
+    <icon>fas:bars fa-fw</icon>
+    <menu>
+      <menuitem label="Todos">
+        <action>MenuList</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
+      </menuitem>
+      <menuitem label="Novo">
+        <action>MenuForm</action>
+        <icon>fas:arrow-alt-circle-right fa-fw</icon>
       </menuitem>
     </menu>
   </menuitem>

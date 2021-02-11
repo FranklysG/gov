@@ -1,7 +1,7 @@
 <?php
 require_once 'init.php';
 
-// AdiantiCoreApplication::setRouter(array('AdiantiRouteTranslator', 'translate'));
+AdiantiCoreApplication::setRouter(array('AdiantiRouteTranslator', 'translate'));
 
 class TApplication extends AdiantiCoreApplication
 {

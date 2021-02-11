@@ -50,7 +50,7 @@ class SliderForm extends TWindow
         $row = $this->form->addFields( [ new TLabel('Nome'), $name ],
                                         [ new TLabel('Mostar'), $active ],
                                         [ new TLabel('<br>Selecione a imagem <i style="font-size:10px;"> (2048x478)</i>'), $directory ],
-                                        [ new TLabel(''), $this->frame ],
+                                        [ new TLabel(''), $this->frame ]
                                      );
 
         $row->layout = ['col-sm-8','col-sm-4','col-sm-12','col-sm-12'];

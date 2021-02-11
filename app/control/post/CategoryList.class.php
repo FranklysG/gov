@@ -22,16 +22,13 @@ class CategoryList extends TPage
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_Category');
-        $this->form->setFormTitle('Category');
-        
+        $this->form->setFormTitle('Listagem de categorias');
 
         // create the form fields
         $name = new TEntry('name');
 
-
         // add the fields
         $this->form->addFields( [ new TLabel('Name') ], [ $name ] );
-
 
         // set sizes
         $name->setSize('100%');
@@ -55,12 +52,19 @@ class CategoryList extends TPage
         // creates the datagrid columns
         $column_id = new TDataGridColumn('id', 'Id', 'right');
         $column_name = new TDataGridColumn('name', 'Name', 'left');
-        $column_created_at = new TDataGridColumn('created_at', 'Created At', 'left');
-        $column_updated_at = new TDataGridColumn('updated_at', 'Updated At', 'left');
+        $column_created_at = new TDataGridColumn('created_at', 'Criado em', 'right');
+        $column_updated_at = new TDataGridColumn('updated_at', 'Ultima modificação', 'right');
 
+        $column_created_at->setTransformer(function ($value){
+            return Convert::toDateBR($value);
+        });
+
+        $column_updated_at->setTransformer(function ($value){
+            return Convert::toDateBR($value);
+        });
 
         // add the columns to the DataGrid
-        $this->datagrid->addColumn($column_id);
+        // $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_created_at);
         $this->datagrid->addColumn($column_updated_at);
@@ -251,7 +255,8 @@ class CategoryList extends TPage
         }
         catch (Exception $e) // in case of exception
         {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
+            // new TMessage('error', $e->getMessage()); // shows the exception error message
+            new TMessage('warning', 'Exitem sub categorias relacionadas'); // shows the exception error message
             TTransaction::rollback(); // undo all pending operations
         }
     }

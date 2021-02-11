@@ -185,14 +185,14 @@ RewriteRule ^user-groups$ rest.php?class=SystemUserGroupRestService&method=handl
 RewriteRule ^home$ index.php?class=ViewIndex&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-home$ engine.php?class=ViewIndex&%{QUERY_STRING} [NC]
 
-RewriteRule ^contact$ index.php?class=ViewContact&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-contact$ engine.php?class=ViewContact&%{QUERY_STRING} [NC]
+RewriteRule ^contato$ index.php?class=ViewContact&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-contato$ engine.php?class=ViewContact&%{QUERY_STRING} [NC]
 
 RewriteRule ^noticias$ index.php?class=ViewBlog&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-noticias$ engine.php?class=ViewBlog&%{QUERY_STRING} [NC]
-
-RewriteRule ^single$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
-RewriteRule ^xhr-single$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC] // não funciona
+ 
+RewriteRule ^noticias/([A-Za-z0-9]*)$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-noticias/([A-Za-z0-9]*)$ engine.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
 
 RewriteRule ^licitacao$ index.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-licitacao$ engine.php?class=ViewLicitacao&%{QUERY_STRING} [NC]

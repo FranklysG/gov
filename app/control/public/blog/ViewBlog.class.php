@@ -15,7 +15,9 @@ class ViewBlog extends TPage
     {
         parent::__construct();
         TTransaction::open('app');
-        $objects = Post::getObjects();
+        $criteria = new TCriteria;
+        $criteria->setProperty('limit' , 8);
+        $objects = Post::getObjects($criteria);
         
         $data = [];
         foreach($objects as $object){
