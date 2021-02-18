@@ -196,3 +196,4 @@ RewriteRule ^xhr-teste?/[A-Za-z0-9]*)$ engine.php?class=ViewBlogSingle&id=$1&%{Q
 
 RewriteRule ^licitacao$ index.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-licitacao$ engine.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
+
