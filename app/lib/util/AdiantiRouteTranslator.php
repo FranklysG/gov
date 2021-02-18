@@ -1,5 +1,6 @@
 <?php
 /**
+ * @appmake
  * Route translator
  *
  * @version    7.0
@@ -13,13 +14,13 @@ class AdiantiRouteTranslator
     public static function translate($url, $format = TRUE)
     {
         /**
-         // manual entries
-         $routes = array();
-         $routes['class=TipoProdutoList'] = 'tipo-produto-list';
-         $routes['class=TipoProdutoList&method=onReload'] = 'tipo-produto-list';
-         $routes['class=TipoProdutoForm&method=onEdit']   = 'tipo-produto-edit';
-         $routes['class=TipoProdutoForm&method=onDelete'] = 'tipo-produto-ondelete';
-         $routes['class=TipoProdutoForm&method=delete']   = 'tipo-produto-delete';
+            // manual entries
+            $routes = array();
+            $routes['class=TipoProdutoList'] = 'tipo-produto-list';
+            $routes['class=TipoProdutoList&method=onReload'] = 'tipo-produto-list';
+            $routes['class=TipoProdutoForm&method=onEdit']   = 'tipo-produto-edit';
+            $routes['class=TipoProdutoForm&method=onDelete'] = 'tipo-produto-ondelete';
+            $routes['class=TipoProdutoForm&method=delete']   = 'tipo-produto-delete';
          */
         
         // automatic parse .htaccess
@@ -95,7 +96,7 @@ class AdiantiRouteTranslator
                 {
                     $source = $rule_parts[1];
                     $target = $rule_parts[2];
-                    $source = str_replace(['^', '$'], ['',''], $source);
+                    $source = str_replace(['^', '$'], ['','',], $source);
                     $target = str_replace('&%{QUERY_STRING}', '', $target);
                     $target = str_replace(' [NC]', '', $target);
                     $target = str_replace('index.php?', '', $target);

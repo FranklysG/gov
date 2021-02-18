@@ -111,6 +111,7 @@ class PostForm extends TPage
             $object = Post::find($data->id);  // create an empty object
             if(!isset($object->id))
                 $object = new Post; // create an empty object
+            $object->slug = Convert::toWithoutAccent($data->title);
             $object->system_user_id = TSession::getValue('userid'); // load the object with data
             $object->fromArray( (array) $data); // load the object with data
             

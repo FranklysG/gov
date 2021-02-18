@@ -181,7 +181,7 @@ RewriteRule ^user-groups/([A-Za-z-_0-9]*)/([A-Za-z-_0-9]*)$ rest.php?class=Syste
 RewriteRule ^user-groups$ rest.php?class=SystemUserGroupRestService&method=handle&%{QUERY_STRING} [NC]
 
 
-#RESTFUL routes custom 
+#Routes custom 
 RewriteRule ^home$ index.php?class=ViewIndex&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-home$ engine.php?class=ViewIndex&%{QUERY_STRING} [NC]
 
@@ -190,9 +190,9 @@ RewriteRule ^xhr-contato$ engine.php?class=ViewContact&%{QUERY_STRING} [NC]
 
 RewriteRule ^noticias$ index.php?class=ViewBlog&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-noticias$ engine.php?class=ViewBlog&%{QUERY_STRING} [NC]
- 
-RewriteRule ^noticias/([A-Za-z0-9]*)$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-noticias/([A-Za-z0-9]*)$ engine.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
+    
+RewriteRule ^teste/([A-Za-z0-9]*)$ index.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-teste?/[A-Za-z0-9]*)$ engine.php?class=ViewBlogSingle&id=$1&%{QUERY_STRING} [NC]
 
 RewriteRule ^licitacao$ index.php?class=ViewLicitacao&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-licitacao$ engine.php?class=ViewLicitacao&%{QUERY_STRING} [NC]

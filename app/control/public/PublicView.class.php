@@ -14,25 +14,6 @@ class PublicView extends TPage
     public function __construct()
     {
         parent::__construct();
-        
-        // replace the main section variables to section header
-        TTransaction::open('app');
-        $preference = SystemPreference::getAllPreferences();
-        $objects = Menu::getObjects();
-        TTransaction::close();
-    
-        $replace = array();
-        $replace['header_logo'][] = ['logo' => $preference['logo']];
-        foreach($objects as $object){
-            $replace['header_menu'][] = [
-                'name' => $object->name, 
-                'route' => $object->route
-            ];      
-        }
-
-        $header = THtmlRenderer::create('app/resources/public.html', $replace);
-        
-        // add the template to the page
-        parent::add($header);
+     
     }
 }

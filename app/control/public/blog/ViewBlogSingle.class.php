@@ -21,7 +21,7 @@ class ViewBlogSingle extends TPage
             $criteria->add(new TFilter('id','=',$key));
         }
         $objects = Post::getObjects($criteria);
-
+        
         $data = [];
         foreach($objects as $object){
             $data['post'][] = [
@@ -48,4 +48,5 @@ class ViewBlogSingle extends TPage
         parent::add($body);
         parent::add(new ViewFooter);
     }
+
 }
